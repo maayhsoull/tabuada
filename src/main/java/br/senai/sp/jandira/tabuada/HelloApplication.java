@@ -1,18 +1,17 @@
 package br.senai.sp.jandira.tabuada;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class HelloApplication extends Application {
 
@@ -79,7 +78,13 @@ public class HelloApplication extends Application {
         });
 
         Button btnLimpar = new Button("Limpar");
+        btnLimpar.setOnAction(e -> {
+            limparFormulario();
+        });
         Button btnSair = new Button("Sair");
+        btnSair.setOnAction(e -> {
+           fechar();
+        });
 
         //Adicionar os botoes na boxBotoes
         boxBotoes.getChildren().addAll(btnCalcular, btnLimpar, btnSair);
@@ -108,6 +113,27 @@ public class HelloApplication extends Application {
         //inicia o programa
         stage.show();
 
+    }
+
+    public void limparFormulario(){
+        textFieldMultiplicando.setText("");
+        textFieldMenorMultiplicador.setText("");
+        textFieldMaiorMultiplicador.setText("");
+        listaTabuada.getItems().clear();
+        textFieldMultiplicando.requestFocus(); //requisite o foco, peça o foco para você.
+    }
+
+    public void fechar(){
+        Alert alertaFechar = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Confirma a saída do sistema?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+        Optional<ButtonType> resposta = alertaFechar.showAndWait(); //retorna o botão que o usuário pressionou, facilitando a criação de uma condicional.
+        if (resposta.isPresent() && resposta.get() == ButtonType.YES) {
+            Platform.exit();
+        }
     }
 
     public void calcularTabuada() {
@@ -141,4 +167,5 @@ public class HelloApplication extends Application {
         listaTabuada.getItems().clear();
         listaTabuada.getItems().addAll(tabuada);
     }
+
 }
