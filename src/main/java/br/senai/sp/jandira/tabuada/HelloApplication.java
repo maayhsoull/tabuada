@@ -3,6 +3,8 @@ package br.senai.sp.jandira.tabuada;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -28,8 +30,14 @@ public class HelloApplication extends Application {
         //no programa irá perguntar qual o mínimo e máximo multiplicador e informar o multiplicando
 
         //definir o tamanho da tela (stage)
-        stage.setWidth(500);
-        stage.setHeight(500);
+//        stage.setWidth(500);
+        stage.setHeight(600);
+        //controlando o fechamento ao clicar no fechar da janela
+        stage.setOnCloseRequest( e ->{
+            fechar();
+            e.consume(); //abandona a função
+        });
+        stage.setResizable(false); //bloquear o redimensionamento da janela
 
         //componete principal da tela
         VBox root = new VBox();
@@ -51,6 +59,10 @@ public class HelloApplication extends Application {
         //criar o multiplicando
 
         GridPane gridFormulario = new GridPane();
+        gridFormulario.setPadding(new Insets(20));
+        gridFormulario.setVgap(10);
+        gridFormulario.setHgap(10);
+
         Label labelMultiplicando = new Label("Multiplicando: ");
         textFieldMultiplicando = new TextField();
 
@@ -69,7 +81,12 @@ public class HelloApplication extends Application {
 
         //Crir componentes de botoes
         HBox boxBotoes = new HBox();
+        boxBotoes.setAlignment(Pos.CENTER_RIGHT);
+        boxBotoes.setPadding(new Insets(0, 20, 20,20));
+        boxBotoes.setSpacing(10);
         Button btnCalcular = new Button("Calcular");
+        btnCalcular.setPrefWidth(90);
+        btnCalcular.setPrefHeight(40);
 
         //recebe como argumento uma outra função
         btnCalcular.setOnAction(e -> {
@@ -78,10 +95,14 @@ public class HelloApplication extends Application {
         });
 
         Button btnLimpar = new Button("Limpar");
+        btnLimpar.setPrefWidth(70);
+        btnLimpar.prefHeight(40);
         btnLimpar.setOnAction(e -> {
             limparFormulario();
         });
         Button btnSair = new Button("Sair");
+        btnSair.setPrefWidth(70);
+        btnSair.setPrefHeight(40);
         btnSair.setOnAction(e -> {
            fechar();
         });
@@ -91,6 +112,7 @@ public class HelloApplication extends Application {
 
         //adicionar um componente Listview
         VBox boxResultado = new VBox();
+        boxResultado.setPadding(new Insets(0, 20, 20,20));
         Label labelResultado = new Label("Resultado: ");
         labelResultado.setStyle("-fx-text-fill: blue; -fx-font-size: 14; -fx-font-weight: bold");
 
